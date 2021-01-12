@@ -1,0 +1,52 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[english]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{physics}
+
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+	\def\svgwidth{\columnwidth}
+	\import{./figures/}{#1.pdf_tex}
+}
+
+\pdfsuppresswarningpagegroup=1
+\title{ME 766 - High Performance Scientific Computing}
+\begin{document}
+\section{Introduction}
+Course content
+\begin{itemize}
+	\item Introduction to HPSC and scientific computing
+	\item Processor performance, memory hierarchy, multi-core computing and vector computing
+	\item Introduction  to parallel programming concepts and parallel algorithms
+	\item Effective use of Bash scripting
+	\item Effective use of tools like git, SVN, Mercurial etc
+	\item OpenMP, MPI, GPGPU, Vector programming
+	\item debuggers
+	\item Performance analysis
+	\item Numerical methods, applications of 
+\end{itemize}
+
+This course is all about making you a better researcher. It
+is very hands on. This course
+gets me rock hard. The processors keep changing every two years.
+How to exploit hardware-level optimization techniques will also
+change every two years LOL. This course is targeted at those who are
+pursuing a project - help them improve their code over there. So,
+include this in your SoPs and course description. 
+
+The biggest component of this course the project. All the best.
+This project is a distillation of the professor's experience over
+B.Tech. This man wants to \emph{teach}. So you better \emph{imbibe}. 
+
+
+\end{document}

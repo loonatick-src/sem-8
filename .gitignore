@@ -1,0 +1,11 @@
+*.swp
+*/hw/
+*/books/
+*/screenshots/
+btp/
+AcadCal*
+handbook*
+UGFee*
+
+
+

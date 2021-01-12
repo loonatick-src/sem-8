@@ -1,0 +1,294 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[english]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{physics}
+\usepackage{isomath}
+\usepackage{listings}
+
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+	\def\svgwidth{\columnwidth}
+	\import{./figures/}{#1.pdf_tex}
+}
+
+\DeclareMathSymbol{\C}{\mathalpha}{AMSb}{"43}
+\DeclareMathSymbol{\R}{\mathalpha}{AMSb}{"52}
+
+\pdfsuppresswarningpagegroup=1
+\title{EE 636 - Matrix Computations}
+\begin{document}
+\section{Introduction}
+The following are course notes made during the live lectures of
+EE 636, taken by Prof. Debasattam Pal (Spring 2021)
+\textbf{Logistics}
+\begin{itemize}
+	\item Google Classroom - join codes shared on Moodle
+	\item login to classroom regularly to check for assignments, announcements
+	\item live lectures
+	\item do not rely on the lectures being recorded
+\end{itemize}
+\textbf{Reference books}
+\begin{itemize}
+	\item David Watkins - Matrix Computations (Main)
+	\item Golub - Matrix Compuations
+\end{itemize}
+\textbf{Grading Policy}
+\begin{itemize}
+	\item TA Proctored quizes - 20\%
+	\item Midsem - 20\%
+	\item Endsem - 40\%
+	\item Assignments - 10\%
+	\item TakeHomeExam/viva/project/coding - 10\%
+\end{itemize}
+
+Take home exams will be significantly harder than assignments, which
+will be standard problems. Deadlines will be stricter for take-home-exams.
+
+Learning more about HPC in specific will require you to look into
+topics that are beyond the scope of the course, but are in the
+reference book.
+
+As such the main aim of this course is to learn what happens behind
+the scenes when we call library functions and learn how to write
+better code. \textbf{It is important that we understand when the result
+of a computation can be trusted or not.} We will see when a computer
+is prone to make errors. It has something to do with the condition 
+number of the matrix.
+
+Condition number is defined as
+\[
+	K_2(A) = {\norm{A}_2}{\norm{A^{-1}}_2}
+.\] 
+
+We will spend a lot of time seeing how to solve $Ax = b$. We might
+not look at specific examples, but the content covered will apply
+more or less directly in some use cases e.g. image processing.
+
+Starting off with a small simple assignment, to be submitted before
+the next lecture.
+\textbf{Assignment}
+\begin{itemize}
+	\item Go through the syllabus
+	\item Write briefly about a problem (from your area of expertise) that needs knowledge from any of the syllabus topics
+	\item Feel free to come up with multiple examples. The more examples $\implies$ more credits.
+	\item Submission due by next Monday (11th Jan)
+	\item To be submitted on the classroom
+	\item submission format \texttt{.pdf}
+\end{itemize}
+
+Professor asked us here what exactly are we looking for in this course.
+Some answers were given by students. The main purpose of this course
+is to understand what happens behind the scenes when we call linalg
+library functions, and consequently understand whether a particular
+computation is trustworthy or not.
+
+\subsection{Types of Problems in Matrix Computations}
+%%%%% TODO: reformat, resolve TODOs.
+\subsubsection{$\mathrm{A}\vec{x} = \vec{b}$}
+where we solve for $x$, where $A \in \mathbb{R}^{m\times n}
+		,b \in  \mathbb{R}^{m}
+		,x \in \mathbb{R} ^{n}$. Also, note that $\R^{n} = \R^{n\times 1}$.
+
+\subsubsection{$\text{argmin}_{\vec{x}}\norm{\mathrm A \vec{x} - \vec{b}}$}
+	Sometimes we cannot find solve for $\vec{x}$ exactly, in which
+	case we would like to minimize some norm of the above kind.
+\subsubsection{$\mathrm a \vec{x}= \lambda \vec{x}$}
+Here we need to solve for both $\vec{x}$ and $\lambda$. This is a
+very important class of problems and also not straightforward. The
+characteristic equation to be solved is
+\begin{equation}\label{chareq}
+	\left| \mathrm A - \lambda \mathbb{1} \right|  = 0
+\end{equation}
+And then we have the older problem of finding $\vec{x}$, the eigenvectors.
+The equation \ref{chareq} is basically finding the roots of a polynomial,
+which is very nontrivial ($\because$ in general there is no closed
+form for degrees $\ge 5$, as shown by Henry Abel.)
+
+Something called the QR algorithm can find both eigvals and eigvecs
+in one shot.
+
+\subsubsection{$\mathrm A \vec{u} = \mathrm \sigma \vec{v}$}
+$\mathrm A$ is known, the rest are unknown. And
+\begin{align}
+	&\vec{u_1}\quad \vec{u_2}\ldots\vec{u_n} \\
+	&\vec{v_1}\quad \vec{v_2} \ldots \vec{v_m} \\
+	&\vec{u_i}
+\end{align}
+\begin{itemize}
+	\item Singular value decomposition
+	\item 
+\end{itemize}
+
+Questions that we are concerned with, given some problems
+\begin{itemize}
+	\item How does a computer solve them?
+	\item How trustworthy are the solutions?
+	\item How efficient are the algorithms?
+\end{itemize}
+
+Something was said about the etymology of the word ``algorithm". The
+prof then talks about the Caesar cypher. 
+
+The letter ``E" is used most often in English. If you have a very
+large encrypted text, you could find the Caesar cypher key by
+finding the most frequent letter in the encrypted text. Pretty neat
+huh.
+
+The enigma machine would randomly choose a key every day and the
+decoder machine could automatically figure out the key from the
+encrypted text.
+
+Let's get down to computations and all. What does a computer do when
+you tell it to $\mathrm{A}\vec{x} = \vec{b}$.
+ \begin{equation}
+	 \begin{bmatrix} a_{11} & a_{12} & a_{13} \ldots &a_{1n} \\
+	 a_{21} & a_{22} & a_{23} \ldots &a_{2n}\\
+	 \hdotsfor{4} \\
+	 a_{m1} & a_{m2} & a_{m 3} \ldots &a_{mn}
+ \end{bmatrix} 
+ \begin{bmatrix} x_1\\ \vdots\\ x_n \end{bmatrix}
+\end{equation}
+
+Internally, it computes something like
+\begin{equation}
+	\begin{pmatrix} \sum_{i=1}^{n} a_{1i}x_i\\ \vdots\\ \sum_{i=1}^{n} a_{mi}x_i \end{pmatrix}
+\end{equation}
+%%%% TODO: spent too much time figuring out the matrix snippets. Complete this part
+
+\textbf{Task:} Compute the number of tasks required in matrix vector
+multiplication. Here, task means FLOP. So, find the number of FLOP.
+Prove that rowwise FLOP $= 2mn$ and columnwise FLOP $= 2mn$ and 
+$\mathrm{A}\vdot B$ FLOP $= 2mnp$
+
+\section*{Summary}
+The purpose of this course is to 
+\begin{itemize}
+	\item learn how a computer can solve
+the four types of problems mentioned a
+	\item Effect of round-off errors 
+	\item When can a solution be trusted
+	\item FLOPS to measure computation time
+	\item Counted the FLOPS for basic matrix multiplication: $2mn$ for a matrix of size $m\times n$ and a vector of dim $n$.
+\end{itemize}
+
+\section*{Solvinig a linear system of linear equations}
+\subsection*{Triangular Matrix}
+\begin{equation}
+	\mathrm{A}\vec{x} = \vec{b}
+\end{equation}
+where $\mathrm A \in \R^{m \times  n}$, $b \in  \R^{n}$. The first
+step to learning how to solve such problems is learning about
+triangular matrix. Consider the following system with a lower
+triangular matrix
+\begin{equation}
+	%%%%% TODO: Complete
+	\begin{bmatrix} l_{11} & 0 & 0 & \ldots & 0\\
+		l_{21} & l_{22} & 0 & \ldots & 0 \\
+		l_{31} & l_{32} & l_{33} & \ldots & 0\\
+	\hdotsfor{5} \\  
+	l_{n 1} & l_{n 2} & l_{n 3} &\ldots & l_{nm} \end{bmatrix}
+%	\begin{bmatrix}  \end{bmatrix} %%%% TODO
+\end{equation}
+
+\lstinputlisting{listings/ltr.c}
+
+For the above algorithm (\emph{forward substitution}), FLOPS $= n(n-1) + n = n^2$.
+Innermost loop has $2(k-1)$ FLOPS. The loop is called $n$ times for
+$k = 1,2,\ldots n$. There is another division operation after a whole
+pass over the the inner loop. So, we have $n + \sum_{j=1}^{n} a_n z^n$ TODO. %%% TODO
+
+In general, we can have a column-oriented algorithm for a row-oriented
+operation. The corresponding algo is called \emph{backward substitution}. 
+FLOPs will be the same as the row-oriented business.
+
+\subsection*{The question of solvability}
+In real life we do not really get such nice looking lower-triangular
+or upper triangular matrices. Consider the following theorem
+
+\textbf{Theorem:} Let $\mathrm A \in \R^{n\times n}$ and $b \in  \R^{n}$ be given. Then the following are equivalent
+\begin{enumerate}
+	\item $\mathrm A \vec{x}= \vec{b}$ has a unique solution
+	\item $\mathrm A^{-1}$ exists
+	\item $\text{det} A \neq 0$ 
+	\item The rows of $\mathrm A$ are linearly independent
+	\item The columns are linearly independent
+	\item $\mathrm A\vec{y} = 0 \iff y = 0$
+\end{enumerate}
+How do we prove $1 \implies 2$? (Notation: $\vec{e_i}$ are the unit vectors).
+$\vec{b} = \sum_{j=1}^{n} a_j\vec{e_j}$ And $\vec{x} = \sum_{j=1}^{n} x_i \vec{e_i}$
+
+\[
+	\mathrm A \vec{x} = \sum_{i=1}^{n} x_i \mathrm{A}\vec{e_i}
+.\] 
+LOL IDK what I am doing. %%%% TODO: write full proof
+
+\subsection*{Gaussian Elimination}
+Solve for $\vec{x}$ in $\mathrm A \vec{x} = \vec{b}$ where $\mathrm A \in  \R^{n\times m}$. We can construct an equivalent system of equations
+like 
+\[
+	\mathrm A \vec{x} = \vec{b} \to \mathrm{\overline{A}}\vec{x}
+	= \vec{\overline{b}}
+.\]
+where we can move from LHS to RHS using elementary operations (row,
+column, interchanges, scaling et cetera),
+remember those? Constructed by tweaking the identity matrix. I.e.
+$\mathrm{EA} = \mathrm \overline{A}$, where $\mathrm E$ is invertible.
+
+Gaussian elimination is a systematic way of using these elementary
+operations to reduce an invertible matrix to an upper triangular
+matrix.
+
+Consider an $n\times n$ matrix $a_{ij}$. We use an elemenary row operation using
+\begin{equation}
+	\mathrm{E_1} = \begin{bmatrix} 1 & 0 & 0 &\ldots&0\\
+		-m_{21} & 1 & 0  & \ldots & 0\\
+-m_{31} & 0 & 1 & \ldots & 0 \\
+\hdotsfor{5}\\
+-m_{n 1} & 0 & 0 & \ldots & 1\end{bmatrix} 
+\end{equation}
+where 
+\begin{equation}
+	\begin{split}
+		&m_{21} = \frac{a_{21}}{a_{11}} \\
+		&m_{31} = \frac{a_{31}}{a_{11}}\\
+		&\ldots\\
+		&m_{n 1} = \frac{a_{n 1}}{a_{11}}
+	\end{split}
+\end{equation}
+
+Then moving on to the second row
+\begin{equation}
+	\mathrm{E_2} = \begin{bmatrix} 1 & 0 & 0 & \ldots & 0\\
+	0 & 1 & 0 & \ldots & 0\\
+	0 & -m_{32} & 1 & \ldots & 0\\
+	\hdotsfor{5}\\
+0 & -m_{n 2} & 0 & \ldots & 1\end{bmatrix} 
+\end{equation}
+where
+\begin{equation}
+\begin{split}
+	& m_{32} = \frac{a_{32}^{(1)}}{a_{22}^{(1)}}\\
+	& \ldots\\
+	& m_{n 2} = \frac{a_{n 2}^{(1)}}{a_{22}^{(1)}}\\
+\end{split}
+\end{equation}
+
+You get the flow\ldots
+So, it would be possible that any of the $a_{kk}^{(i)} = 0$, possible.
+How would we check beforehand?
+\begin{itemize}
+	\item Check singularity of leading principle submatrices
+\end{itemize}
+
+Mutual funds are subject to market risk
+\end{document}

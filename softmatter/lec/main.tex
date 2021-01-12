@@ -116,4 +116,138 @@ Phase diagrams do not really capture the dynamics  properly.
 	\item Midsem - 33\%
 	\item Endsem - 33\%
 \end{itemize}
+
+\section*{Intermolecular Forces}
+Must be attractive at some ranges (else cannot have condensed phases), corresponding potential should achieve minima somewhere.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/attr.png}
+	\caption{Typical interatomic potentials in condensed matter systems}
+	\label{fig:figures-attr-png}
+\end{figure}
+
+\begin{equation}
+	\begin{split}
+		&r\to \infty \implies -\frac{\dd U}{\dd r} = 0\\
+		&r \ge a \implies -\frac{\dd U}{\dd r} \le  0\\
+		&r < a \implies -\frac{\dd U}{\dd r} > 0
+	\end{split}
+\end{equation}
+
+\subsection*{Metallic Bond}
+A simple minded picture - positive cores form a lattice and negative
+carriers dispersed throughout the material. Coulomb forces responsible
+for holding the metallic bulk together. 
+
+Typical strength $\approx 10^{-18}$ J $\approx 6 $ eV, around
+300 Kelvin.
+
+\subsection*{Ionic Bonds}
+Similar bond energy as metallic bonds, bulk formed by interpenetrating
+lattices of positive and negative charge cores.
+
+\subsection*{Covalent Bonds}
+Electron sharing and all that jazz. Typically weaker than ionic bonds
+
+\subsection*{Van der Waals interactions}
+Initiated by spontaneous polarization of a molecule, which then
+polarizes nearby molecules and the overall medium can be modelled
+using some empirical potentials that simulate this interaction.
+
+This is typically the weakest interaction,  $k_BT \approx $ room temp. $U\sim \frac{1}{r^{6}}$
+ 
+\subsection*{Hydrogen Bonds}
+O, F, N et cetera participate in Hydrogen bonding. refer to CBSE book
+nothing new here really.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/hydrogen.png}
+	\caption{Hydrogen bonding in water}
+	\label{fig:figures-hydrogen-png}
+\end{figure}
+
+This gives rise to non-trivial properties, like the density of ice
+being lesser than the density of water. Bond strenth $\sim 20 - 100 k_B$
+
+\section*{What is `soft' matter}
+We generally think of colloids, liquid crystals etc. The basic
+building units are mesoscopic in size (somewhere between micro and macro).
+
+Where an atom is typically of the order of a few angstroms, soft matter
+building blocks are somewhere from a few nanometers to microns.
+
+Consider the act of compressing some bulk material. We define the
+bulk modulus of the medium as 
+\begin{equation}\label{bulk}
+	\kappa = \frac{\Delta P}{\Delta V/V}
+\end{equation}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/bulkmod.png}
+	\caption{Doing a bulk compression}
+	\label{fig:figures-bulkmod-png}
+\end{figure}
+Bulk moduli for condensed matter are very high, because the structure
+of the bulk material is maintained by the interatomic forces, which
+typically have a very narrow minimum range. Compressing those solids
+requires one to reduce the average interatomic distances, thus increasing
+thus making the restoring force highly repulsive.
+
+Similarly, we could also shear a bulk material. Shear modulus
+\begin{equation}
+	G = \sigma \frac{L}{l}
+\end{equation}
+where $\sigma = F/A$ is the shear stress and $\gamma = l/L$ or $\Delta L / L$is the
+sheer strain (see figure \ref{fig:sheer})
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/sheer.png}
+	\caption{Sheer modulus}
+	\label{fig:sheer}
+\end{figure}
+
+Why do soft materials have low $G$?
+% TODO: Complete this
+
+Consider the toy model in figure \ref{fig:spring-png} made using springs.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/spring.png}
+	\caption{}
+	\label{fig:spring-png}
+\end{figure}
+If we try to deform it, then we have
+\begin{equation}
+	\begin{split}
+		&F = k(r - a)\\
+		\text{Stress,}\quad&\sigma = \frac{F}{A} = \frac{d(r-a)}{a^2}\\
+			\text{Strain,}\quad &\gamma = \frac{r-a}{a}\\
+			\text{Young's modulus,}\quad &Y = \frac{\sigma}{\gamma} = \frac{k(r-a)}{a^2(r -a)}\vdot a = \frac{k}{a}
+	\end{split}
+\end{equation}
+
+During deformation that doesn't straight up destroy the whole bulk
+material, we are essentially moving in a small window around the
+potential minimum (see fig \ref{fig:figures-attr-png}), we can Taylor
+expand the potential to get some harmonic dynamics.
+
+\begin{equation}
+	U(r) = U(a) - \frac{1}{2!}\dv[2]{U}{r} \left( r -a \right) ^2
+\end{equation}
+
+% TODO: complete the equations
+
+\subsection*{Some important properties of soft matter systems}
+%%% TODO
+\begin{enumerate}
+	\item Disordered matter: energy scales $\approx k_B T$, e.g. granular matter
+	\item  ???
+	\item ???
+	\item Thermal and entropic matter: 
+	\item Observable matter: 
+\end{enumerate}
 \end{document}

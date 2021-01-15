@@ -22,7 +22,7 @@
 \pdfsuppresswarningpagegroup=1
 \title{ME 766 - High Performance Scientific Computing}
 \begin{document}
-\section{Introduction}
+\section*{Introduction}
 Course content
 \begin{itemize}
 	\item Introduction to HPSC and scientific computing
@@ -147,4 +147,132 @@ come from your end. This course is targeted at senior undergrads and
 postgrads. All the best.
 
 Standard benchmarking programs do exist for supercomputers. E.g. LINPACK.
+
+\section*{Why Parellel?}
+So, by now we have learned that the high performance comes from
+parallelization. Why can we not just go on making more and more
+powerful sequential processing hardware?
+
+\subsection*{Moore's Law}
+VLSI circuits are a lot of transistors on a chip. We can only pack
+so many transistors on a processor. What is the best that we can do?
+One transistor per lattice site of the solid state material, if you
+could get that level of control.
+
+Point is that there is a physical limit to the number of transistors
+that you can pack into a single chip. We are at the cusp of where
+Moore's law will break down. Any year now.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/moore.png}
+	\caption{Screenshot of a curve showing Moore's law}
+	\label{fig:figures-moore-png}
+\end{figure}
+
+The MOSFET is a building block of these chips; each MOSFET functions
+as a transistor.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/mosfet.png}
+	\caption{MOSFET}
+	\label{fig:figures-mosfet-png}
+\end{figure}
+
+Today in 2021, gate sizes in production are at 5 nanometers. The 
+Apple M1 chips are built on a 5 nm tech. In research labs people 
+already have 1 nm gates and sizes.
+
+While Moore's law is holding up just fine (for now) Dennard scaling
+has already broken down.
+
+\begin{table}[h]
+	\centering
+	\caption{Dennard Scaling of MOSFETs (1974)}
+	\label{tab:dennard}
+	\begin{tabular}{c c}
+	 Parameter & Factor\\
+	 \hline
+	 Dimension & l/k\\
+	 Voltage & l/k\\
+	 Current & l/k\\
+	 Capacitance & l/k\\
+	 Delay time & l/k \\
+	 Power dissipation & l/k$^2$
+	\end{tabular}
+\end{table}
+
+When you specify something like 1 volt, you know that it is not
+exactly one volt; thermal motion of electrons et cetera will cause
+fluctuations. At smaller scales, the transients and fluctuations
+become comparable. 
+
+Thermal losses also increase a lot as you go smaller and smaller.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/proctrends.png}
+	\caption{35 Years of Microprocessor Trend Data}
+	\label{fig:figures-proctrends-png}
+\end{figure}
+
+Essentially, single-thread performance, switching times and clock frequencies
+et cetera are asymptoting, which means that single core performance
+is becoming peak. You absolutely cannot run away from parallel
+programming in the future.
+
+Also, parallel programmers are needed because automatic parallelization
+is very non-trtivial and is an area of active research.
+An anecdote - around 2004-2005 some of the first dual core machines
+were showing up, and people started thinking seriously about 
+parallel programming. ``Why don't we invest in a compiler that does
+automatic parallelization". They did, the code became slower by 50\%.
+
+It is very easy to slow down the task by trying to parallelize it.
+
+\subsection*{Amdahl's Law}
+Your program will not be completely parallelizable; it will have both
+serial and parallel components. If $P$ is the proportion of the program
+that can be parallelized. Then the maximum speedup possible by parallelization
+of the problem is 
+\begin{equation} \label{amdahl}
+	S(N) = \frac{1}{1 - P + \frac{P}{N}}
+\end{equation}
+where $N$ is the number of processors available at hand.
+
+Consider a trivial problem like addition of an array of integers.
+Sequentially, this is an $O(n)$. If we have 10 cores, then we
+can partition the array into 10 parts, relegate each part to one
+core. We end up with 10 partial sums, and then a single core
+could sequentially add the partial sums to return the final sum.
+
+So, we have $N = 10$. The original sum has $n$ floating point sum
+operations. The parallel algorithm has $n/10 + 10$ floating point
+summations (loosely speaking, I am assuming multiple FP adds occuring
+in parallel as a single FP add). So, consider table \ref{tab:tabam}.
+\begin{table}[h]
+	\centering
+	\caption{Amdahl's Law in action ($N = 10$) for an array sum}
+	\label{tab:tabam}
+	\begin{tabular}{c c c}
+		$n$ &   $n/10 + 10$ & Speedup\\
+		100 & 20 & 5 \\
+		1000 & 110 & 9 \\
+		10000 & 1010 & 9.9 \\
+		\vdots & \vdots & \vdots
+	\end{tabular}
+\end{table}
+
+This is a very rosy picture. You can lose the speedup because of 
+communication overheads, latencies, load imbalance et cetera. 
+Communication between different nodes in the system takes a significant
+amount of time. Think about RAM v/s cache, RAM is much slower than
+the speed at which your processor works. If you have to communicate
+with the RAM frequently during a single process, R.I.P. Doesn't
+matter how many cores you have, you have a major bottleneck.
+
+Also, there is no golden test that tells you how much parallism your
+sequential algo has. You have to take your sequential algo to the
+whiteboard.
 \end{document}

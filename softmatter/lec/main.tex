@@ -245,9 +245,136 @@ expand the potential to get some harmonic dynamics.
 %%% TODO
 \begin{enumerate}
 	\item Disordered matter: energy scales $\approx k_B T$, e.g. granular matter
-	\item  ???
-	\item ???
+	\item Nonlinear matter
+	\item Far from equilibrium matter
 	\item Thermal and entropic matter: 
 	\item Observable matter: 
 \end{enumerate}
+
+Summary: Young's modulus $E \approx \frac{\epsilon}{a^3}$, where
+$\epsilon \to  \text{typical bond strength}, a \to  \text{bond length}$ %%%% TODO: verify what exactly  $a$ is
+
+\section*{Viscous, elastic, and viscoelastic behaviour}
+\begin{itemize}
+	\item Solid: It resists shear stress and undergoes shear strain without yielding, i.e. original shape et cetera is restored.
+	\item Liquid: Cannot susteain shear stress and yields (i.e. it flows)
+\end{itemize}
+
+Based on this we can define a Hookean solid
+\begin{equation}
+	\sigma = \frac{F}{A} \quad \text{Shear stress} 
+\end{equation}
+\begin{equation}
+	\gamma = \frac{\Delta x}{y} \quad \text{Shear strain}
+\end{equation}
+\begin{equation}
+	\text{Shear modulus,} \quad G = \frac{\sigma}{\gamma}
+\end{equation}
+is the modulus associated with all Hookean solids.
+
+Similarly we can define a Newtonian liquid
+\begin{equation}
+	\sigma = \frac{F}{A}
+\end{equation}
+\begin{equation}
+	\text{Shear strain rate,} \quad \dot{\gamma} = \frac{\Delta x}{y\vdot t} = \frac{v}{y}
+\end{equation}
+\begin{equation}
+	\frac{\sigma}{\dot{\gamma}} = \eta \quad \text{(Shear viscosity)}
+\end{equation}
+
+Why Newtonian? Assumed that $\eta$ is constant, i.e. not a function of 
+$\dot{\gamma}$
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/nonnewtonian.png}
+	\caption{Sheer thickening vs sheer thinning non-Newtonian fluids, driving the system increases and decreased viscosity respectively}
+	\label{fig:figures-nonnewtonian-png}
+\end{figure}
+
+\begin{itemize}
+	\item Newtonian $\to $ Water
+	\item Shear thinning $\to $ Shampoo, Ketchup
+	\item Shear thickening $\to $ those corn starch solutions that people keep forwarding on WhatsApp.
+\end{itemize}
+
+Similarly, we can also have non-Hookean solids. For solids, we have
+$G = \sigma/\gamma$. We know that end of the day, metals also yield,
+which is why bridges, for example are not meant to last forever.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/nonhooke.png}
+	\caption{Yielding in solids - nothing is ideal, of course}
+	\label{fig:figures-nonhooke-png}
+\end{figure}
+
+\subsection*{How do viscoelastic materials respond to stress?}
+Consider the the rig that is used to apply stress, measure strain
+and all that. The material being tested could be solid or liquid (or
+something really in between).
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/rig.png}
+	\caption{A rig used to apply stress and measure response of the material}
+	\label{fig:figures-rig-png}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/viscoelasticresponse.png}
+	\caption{Response of ideal (Hookean) and real (non-Hookean) solid}
+	\label{fig:figures-nonhooke-png}
+\end{figure}
+
+Similarly we could compare liquids
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/l.png}
+	\caption{Ideal (Newtonian) vs viscoelastic liquid responses}
+	\label{fig:l-png}
+\end{figure}	
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/responsesummary.png}
+	\caption{Comparison between the different classes of condensed matter systems to sheer stress}
+	\label{fig:figures-summary}
+\end{figure}
+% 
+\subsection*{Concept of relaxation time}
+\begin{equation}
+	\begin{split}
+		&\sigma = G \gamma \to  \text{solid}\\
+		&\sigma = \eta \dot{\gamma} \to \text{liquid}
+	\end{split}
+\end{equation}
+
+The relaxation time $\tau$ is the time below which system has an
+elastic response.
+
+\textbf{Deborah number:} It is a way of distringuishing between
+solids and liquids based on ratio of relaxation time and observation
+time.
+
+``Even the mountains flow before God"
+
+God can see mountains flow. Nothing religious going on here.
+
+\begin{equation}
+	\text{Deborah number,}\quad D_e = \frac{\text{Relaxation time}}{\text{Observation time}}
+\end{equation}
+
+\begin{equation}
+	\begin{split}
+		&D_e \to  \text{high} \to Solid\\
+		&D_e \to  \text{low} \to  liquid	
+	\end{split}
+\end{equation}
+
+Everything flows on a long enough time scale. (See the article on Deborah number that
+appeared in Physics Today in 1964). To have a small $D_e$ you can
+either have a small relaxation time, or a very large ovservation time
+for an otherwise long relaxation time.
+	
 \end{document}

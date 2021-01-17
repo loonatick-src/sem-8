@@ -349,45 +349,72 @@ $\grad_k f = \grad_k f^{0}$. So, we have
 
 Substituting  equation (\ref{fd_dvv}) into this, we get
 \begin{equation}
-	\frac{q}{4\pi^3}\int \dd ^3 k \mathbf{v}_k\left( \frac{q\tau}{\hcut}\beta f^{0}\left( 1 - f^{0} \right) \hcut \mathbf{E}\vdot \mathbf{v}_k \right) 
+	\begin{split}
+		\mathbf{j} &= \frac{q}{4\pi^3}\int \dd ^3 k \mathbf{v}_k\left( \frac{q\tau}{\hcut}\beta f^{0}\left( 1 - f^{0} \right) \hcut \mathbf{E}\vdot \mathbf{v}_k \right) \\
+			   & = \left[\frac{q^2}{4\pi^3}\int \dd ^3 k \mathbf{v}_k  \otimes \mathbf{v}_k\left( -\pdv{f^{0}}{\varepsilon} \right)\right]\vdot \mathbf{E}
+	\end{split}
 \end{equation}
+where $\otimes$ is the tensor product, i.e.  $A_{ij} = B_iC_j$, collecting
+all the indices. Looking at the above equation, we have in the above
+equation in the square brackets the conductivity tensory  $\boldsymbol{\sigma}$. 
+\begin{equation}
+	\label{condtensor}
+	\boldsymbol{\sigma} = \frac{q^2}{4\pi^3} \int \dd ^3 k \mathbf{v}_k \otimes \mathbf{v}_k \left( -\pdv{f^{0}}{\varepsilon} \right) 
+\end{equation}
+
+We want to recover Drude conductivity. So, we have from equations (\ref{speed}) and (\ref{force}), we have 
+\begin{equation}
+	\sigma_{ij} = \left[ \frac{q^2}{4\pi^3} \int \dd ^3 k \left( \frac{\hcut}{m} \right) ^2k_i k_j \left( -\pdv{f^{0}}{\varepsilon} \right) \tau  \right]
+\end{equation}
+
+The integral is over the entire reciprocal space, so we have
+\begin{equation}
+	\sigma_{ij} = \begin{cases}
+		0\quad \text{if }i\neq j\\
+		\left[ \frac{q^2}{4\pi^3}\int \dd k ^3 \left( \frac{\hcut}{m} \right) ^2 k_i^2\left( -\pdv{f^{0}}{\varepsilon} \right)\tau  \right] 
+	\end{cases}
+\end{equation}
+
+Now, $k^2 = k_i^2 + k_j ^2 + \ldots$. So we can just put $k^2/3$
+instead of $k_i ^2$. This gives
+\begin{equation}
+	\sigma_{ii} = \frac{q^2\tau}{6\pi^3m}\int \dd ^3 k \varepsilon \left( -\pdv{f^{0}}{\varepsilon} \right) 
+\end{equation}
+
+We can also write this whole business in terms of the density
+of states $g(\varepsilon)$
+\[
+	\frac{1}{4\pi^3} \int \dd ^3 k = \int g(\varepsilon) \dd \varepsilon
+.\] 
+\begin{equation}
+	\implies \sigma_{ii} = \frac{2q^2}{3m}\int \dd \varepsilon \tau(\varepsilon) \varepsilon
+	g(\varepsilon) \left( -\pdv{f^{0}}{\varepsilon} \right) .
+\end{equation}
+
+Note that in general $\tau$ is a function of $\varepsilon$.
+
+%%%%% TODO: Homework: Plug in $g(\varepsilon)$ for free electrons in
+%%%%% Sommerfeld metal (g(vareps)) = c.sqrt(vareps)
 
 Take a look at figure \ref{fig:figures-fddv-png}. It approaches
 a  $\delta$-function as $\beta \to  0$.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/fddv.png}
-	\caption{Derivative of the Fermi-Dirac distribution}
+	\caption{Derivative of the Fermi-Dirac distribution - FWHM $\sim k_BT$}
 	\label{fig:figures-fddv-png}
 \end{figure}
 
-%%%% TODO: see screenshot and complete this part
-
-We want to recover Drude conductivity
+%%%%%%%%%% TODO: The Dirac delta thing 
+So, we have the Drude conductivity formula 
 \begin{equation}
-	\varepsilon(k) = \frac{\hcut^2k^2}{2m}
-\end{equation}
-\begin{equation}
-	\vec{v_k} = \frac{\hcut k}{m}
-\end{equation}
-%\begin{equation}
-%	%%%%% TODO: fix
-%	\begin{split}
-%		\vec{j} &= \frac{q^2}{4\pi^3}\int \dd^3 k \left( \frac{\hcut}{m} \right)^2 k_{i}k_j \left( -\pdv{f_^0}{\varepsilon} \right) \\
-%		\implies \vec{j} = \begin{cases}
-%			0,\quad i\neq j\\
-%
-%			\frac{2q^2}{12\pi^3m}\int \dd^3k \frac{\hcut^2k^2}{2m}\left( -\frac{\delta f^{0}}{\varepsilon} \right), \quad i=j
-%		\end{cases}
-%	\end{split}
-%\end{equation}
-
-((((( Couldn't keep up today.)))))
-Plug in $g(\varepsilon)$ for free electrons/Sommerfeld metal ($g(\varepsilon) \sim \sqrt{\varepsilon} $)
-\begin{equation}
-	\sigma_{xx} = \sigma_{y y} = \sigma_{z z} = \frac{ne^2\tau}{m}
+	\begin{pmatrix} j_x\\ j_y\\ j_z \end{pmatrix}
+	= \begin{pmatrix} 
+	\frac{ne^2\tau}{m} & 0 & 0\\
+0 & \frac{ne^2\tau}{m} & 0 \\
+0 & 0 & \frac{ne^2\tau}{m}\end{pmatrix} 
+\begin{pmatrix} E_x\\E_y\\E_z \end{pmatrix} 
 \end{equation}
 
-Nice. We started with Bloch electrons and were able to derive Drude
-conductivity. Getting a feel for the power of this method? The generality?
+
 \end{document}

@@ -1,4 +1,5 @@
 \documentclass[a4paper]{article}
+%%%%%%%%%%%%%%%%%%% TODO: change k to \mathbf{k}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -19,6 +20,7 @@
 	\def\svgwidth{\columnwidth}
 	\import{./figures/}{#1.pdf_tex}
 }
+\newcommand{\tensor}[1]{\overset{\leftrightarrow}{#1}}
 
 \pdfsuppresswarningpagegroup=1
 
@@ -27,7 +29,6 @@
 \begin{document}
 \maketitle
 \section*{Kinetic Theory of Gases}
-
 \textbf{Kinetic theory} is concerned with the marcoscopic properties
 of large numbers of particles, starting from their classical equations
 of motion. This course then goes on to develop the semiclassical, and
@@ -67,66 +68,115 @@ outside equilibrium? Reminding us of the Fermi-Dirac distro, in equilibrium
 	f(\varepsilon) = \frac{1}{1 + \exp((\varepsilon - \mu)\beta)}
 \end{equation}
 
-In equilibrium, $\mu(T=0) \varepsilon_F$, where $\mu$ is the electrochemical potential.
+In equilibrium, $\mu(T=0) = \varepsilon_F$, where $\mu$ is the electrochemical potential.
 $\varepsilon_F$ reflects the carrier density. If your carrier density
 varies, then your electrochemical potential $\mu$ has spatiotemporal
 varitaion.
 
-A non-equiilbrium would look something like
+A non-equiilbrium with the distribution still having the same functional
+form would have some spatiotemporal variation
 \begin{equation}
-	f(k,\vec{r},t) = \frac{1}{1 + \exp\left(\left( \varepsilon(k) - \mu(\vec r,t) \right)\beta(\vec{r}, t)\right) }
+	f(k,\vec{r},t) = \frac{1}{1 + \exp\left(\left( \varepsilon(k) - \mu(\vec r,t) \right)\beta(\vec{r}, t)\right) }.
 \end{equation}
-once we are assuming that there are temperature and carrier concentration
-gradients, you can at best define particle distribution in a small
+
+Note that the quantities $T, \mu$ et cetera are defined in equibrium
+and do not have any meaning outside of equilibrium. So, the current
+problem at hand could use the \emph{local equilibrium approximation}.
+
+In this approximation, we define the equilibrium functions only in
+infinitesimal volume elements of the system. Once we are assuming that there are temperature and carrier concentration
+gradients, we can at best define particle distribution in a small
 volume of the phase space. The form of the function remains the same,
 which is basically representative of us taking a local-equilibrium
-approximation (see de Groot, Mazur).
+approximation, and not going too far from equilibrium.
 
-\textbf{Local Equilibrium:} No idea.
+The Fermi energy $\epsilon_F$ is a measure of the carrier density;
+$\epsilon_F$ is higher for greater carrier density. Any gradient
+in the carrier concentration means that there is going to be a
+corresponding gradient in the electrochemical potential.
 
 Now, how would you go about defining current density $\vec{j}$?
-Consider Drude model
-\[
-\vec{j} = nev_d.
-.\] 
+Remember Drude model?
+\begin{equation}
+	\mathbf{j} = nev_d
+\end{equation}
+
+Start by calculating the current density being contributed by a small
+region of the reciprocal space, estimate the number density occupying
+that region using the density of states and then multiply by the
+velocity. Integrate over the whole $k$-space to get the total current
+density.
 
 A general non-equilibrium system would have spatiotemporally varying
 $n$, $v_d$ and all. We can arrive at a current density expression using
 the density of states and the distribution function by filling up the
 bandstructure/energy levels. We consider the contributiong of electrons
-from a small volume element of phase space  $\dd ^3 k$
+from a small volume element of phase space  $\dd ^3 k$. So, we start
+with the product of the spin degeneracy, the density of states in the $k$-space, the carrier charge, the density of states and the velocity. Integrate.
 \begin{equation} \label{current_density}
-	\vec{j} = (-e)2\times \frac{1}{8\pi^3}\int f(k, \vec{r}, t)v_n(k)\dd^3k
+	\begin{split}
+		\mathbf{j} &= (-e)2\times \frac{1}{8\pi^3}\int f(k, \mathbf{r}, t)v_n(k)\dd^3k\\
+		\implies \mathbf{j} &= -\frac{1}{4\pi^3}\int \dd ^3 k f(k, \mathbf{r}, t)\textbf{v}_n(k)
+	\end{split}
 \end{equation}
 
-\subsection*{Dyamics or something IDK}
+Note that $f = f(k, \mathbf{r}, t)$ is not the equilibrium quantity.
+This procedure is fairly general, this we have calculated the charge
+current density. Calculation of, say, energy current density would
+proceed in a similar manner, i.e. local equilibrium approximation,
+contribution from small volume element in the $k$-space and integrate
+over the whole $k$-space.
+
+So, we want the `dynamics of the phase space' now that we are out of 
+equilibrium.
 \begin{equation}
-	\frac{\dd f}{\dd t} = \pdv{f}{t} + \dot\vec r \vec{\nabla_i}f + \dot\vec{k}\vec{\nabla_k}f
-\end{equation}
-\begin{equation}
-	\vec{v}(\vec{k}) = \frac{1}{\hbar}\grad_k\varepsilon(\vec{k})
-\end{equation}
-\begin{equation}
-	\dot\vec{r} = \frac{1}{\hbar} \grad_k\varepsilon(\vec{k})
-\end{equation}
-\begin{equation}
-	\hbar \dot{\vec{k}} = \vec{F}
+	\label{dfdt}
+	\frac{\dd f}{\dd t} = \pdv{f}{t} + \dot{\mathbf{r}}\vdot \grad f + \dot{\textbf{k}}\vdot\grad f
 \end{equation}
 
+We know that the expression for velocity in our model is
 \begin{equation}
-	\implies  \frac{\dd f}{\dd t} + \vec{v}(\vec{k})\vdot\grad_rf + \frac{\vec{F}}{\hbar}\vdot\grad_k f
+	\label{speed}
+	\begin{split}
+		\mathbf{v}(\mathbf{k}) &= \frac{1}{\hbar}\grad_k\varepsilon(\mathbf{k})\\
+		\text{OR}\quad \dot{\textbf{r}} &= \frac{1}{\hcut}\grad_k\epsilon(\textbf{k}),
+	\end{split}
+\end{equation}
+and the external force is modelled as
+\begin{equation}
+	\label{force}
+	\hbar \dot{\mathbf{k}} = \mathbf{F}
 \end{equation}
 
-How does one define steady state? We would expect the distribution
-function  to remain constant throughout the dynmics of the system, i.e.
+Substituting equations \ref{force} and \ref{speed} into equation
+\ref{dfdt}, we get
+\begin{equation}
+	\label{dfdt2}
+	\frac{\dd f}{\dd t} = \pdv{f}{t} +  \mathbf{v}(\mathbf{k})\vdot\grad_rf + \frac{\mathbf{F}}{\hbar}\vdot\grad_k f
+\end{equation}
+
+How does one define steady state? We expect the distribution to remain
+static in the steady state, as in
 \begin{equation} 
 	\label{equil}
-	\frac{\dd f}{\dd t} = 0
+	\frac{\dd f}{\dd t} = 0.
 \end{equation}
+
+It is easy to see that the first and second terms on the right side
+of equation \ref{dfdt2} are zero in steady state. What about the last
+one, the force term? Even in equilibrium,  $f = f(\textbf{k})$, and if
+we apply some non-zero $\textbf{F}$, we will have a non-zero term.
+
+Think about it this way; if we apply a uniform electric field on an
+electron in some band of a nice crystal, will a steady-state be acheived?
+
+The answer is very clearly no, there are no dissipative terms in
+equation \ref{dfdt2}. Practical systems have dissipations and all,
+scattering off of ions. We could empirically add a collision terms.
 
 To account for collisions we define
 \begin{equation}
-	\pdv{f}{t} + \vec{v}(\vec{k})\vdot\grad_rf + \frac{\vec{F}}{\hbar}\vdot\grad_k f - \pdv{f}{t}\Bigg|_\text{coll} %%%TODO 
+	\pdv{f}{t} + \vec{v}(\vec{k})\vdot\grad_rf + \frac{\vec{F}}{\hbar}\vdot\grad_k f - \pdv{f}{t}\Bigg|_\text{coll} = \frac{\dd f}{\dd t} 
 \end{equation}
 
 Now, using \ref{equil}

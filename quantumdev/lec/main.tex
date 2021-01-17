@@ -176,25 +176,22 @@ scattering off of ions. We could empirically add a collision terms.
 
 To account for collisions we define
 \begin{equation}
-	\pdv{f}{t} + \vec{v}(\vec{k})\vdot\grad_rf + \frac{\vec{F}}{\hbar}\vdot\grad_k f - \pdv{f}{t}\Bigg|_\text{coll} = \frac{\dd f}{\dd t} 
+	\pdv{f}{t} + \vec{v}(\vec{k})\vdot\grad_rf + \frac{\vec{F}}{\hbar}\vdot\grad_k f - \pdv{f}{t}\Bigg|_\text{coll} = \frac{\dd f}{\dd t},
 \end{equation}
-
-Now, using \ref{equil}
+which at steady state becomes
 \begin{equation}
-	\pdv{f}{t} + \vec{v}_k\vdot\grad_rf + \frac{\vec{F}}{\hbar}\vdot\grad_kf = \pdv{f}{t}\Bigg|_\text{coll}
+	\label{sstate}
+	\pdv{f}{t} + \mathbf{v}_k \vdot \grad_r f + \frac{\textbf{F}}{\hcut}\vdot\grad_k f = \pdv{f}{t}\Bigg|_\text{coll}
 \end{equation}
 
-Now, recall that we did a problem that showed Bloch oscillations,
-why do we not really see oscillatory behaviour when we actually sit
-down to do some experiment? It has something to do with the scattering
-timescale versus the oscillation period.
-
+This is the equation that we have to solve for different questions.
+Now, recall that we did a problem that showed Bloch oscillations.
 We had the Bloch frequency
 \begin{equation}
 	\omega_B = \left( \frac{eE}{\hbar} a\right) 
 \end{equation}
 For the parameters $E = 10\text{kV/cm}$,  $a = 1\text{Angstrom}$, we
-get  $\omega_B \sim 10^{12} \text{Hertz}$. So one would expect a
+get  $\omega_B \sim 10^{12} \text{ Hertz}$. So one would expect a
 condition like
 \[
 \omega_B \tau \gg 1

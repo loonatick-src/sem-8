@@ -416,5 +416,59 @@ So, we have the Drude conductivity formula
 \begin{pmatrix} E_x\\E_y\\E_z \end{pmatrix} 
 \end{equation}
 
+\subsubsection*{Case 2: $ \mathbf{E} \neq  0, \mathbf{B} \neq  0$ (not necessarily Hall geometry)}
+Just one little change
+\begin{equation}
+	\label{delf}
+	\delta f = -\frac{q}{\hcut}\left[ \mathbf{E} + \mathbf{v}_k \times \mathbf{B} \right]\vdot \grad_k  f
+\end{equation}
 
+So, now our force term has a $k$-dependence, and hence 
+\[
+	f \neq  f^{0}(\textbf{k} + \delta \mathbf{k})
+,\] 
+$\delta k$ itself has a $k$-dependence.
+
+Can we still express $f = f^{0}(\textbf{k} + \delta \mathbf{k}$, where
+\begin{equation}
+	\label{delk}
+	\delta \mathbf{k} = -\frac{\delta \tau}{\hcut}\textbf{z} \vdot\grad_k f^{0}
+\end{equation}
+
+where $ \mathbf{z}$ is a vecotr involving $ \mathbf{E} \text{ and } \mathbf{B}$,
+but independent of $ \mathbf{k}$ or $ \mathbf{v}_k$.
+
+Consider equation (\ref{delf}), particularly the $ \mathbf{B}$ term
+\[
+-\frac{q\tau}{\hcut}\left( \mathbf{v}_k \times  \mathbf{B} \right) \vdot\grad_k f
+.\] 
+
+Linearize like a good physicist, and check out the first term
+\begin{equation}
+	\mathbf{v}_k \times  \mathbf{B}\vdot\grad_k f
+	= \left( \mathbf{v}_k \times  \mathbf{B} \right) \vdot 
+	\left( \grad_k f^{0} + \grad_k \delta f\right) 
+\end{equation}
+
+The first term
+\begin{equation}
+	\label{firstterm}
+	\begin{split}
+		\left( \mathbf{v}_k \times  \mathbf{B} \right) \vdot \grad_k f^{0} &= \left( \mathbf{v}_k \times  \mathbf{B} \right) \vdot\left( -\left( \pdv{f^{0}}{\varepsilon} \right) \hcut \mathbf{v}_k \right) \\
+										 &=	\left( \mathbf{v}_k \times  \mathbf{B} \right) \vdot \left( -\beta f^{0}(1 - f^{0})\hcut \mathbf{v}_k \right) \\
+										 &= 0
+	\end{split}
+\end{equation}
+
+Second term
+\begin{equation}
+	\label{secondterm}
+	\begin{split}
+	\grad_k \delta f &=  \grad_k \left( -\frac{q\tau}{\hcut} \mathbf{z}\vdot\grad_k f^{0} \right)\\
+	&=  \grad_k \left[ -\frac{q\tau}{\hcut}\textbf{z}\vdot \left( \left( -\pdv{f^{0}}{\varepsilon} \right) \hcut \right) \mathbf{v}_k \right]  \\
+	&= -q\tau\grad_k \left[ -\beta f^{0}(1-f^{}) \mathbf{z}\vdot\mathbf{v}_k \right] 
+	\end{split}
+\end{equation}
+
+	
 \end{document}

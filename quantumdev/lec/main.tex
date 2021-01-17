@@ -5,7 +5,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
 \usepackage[english]{babel}
-\usepackage{amsmath, amssymb}
+\usepackage{amsmath, amssymb, amsfonts}
 \usepackage{physics}
 
 
@@ -196,14 +196,14 @@ condition like
 \[
 \omega_B \tau \gg 1
 .\] 
-
+in order observe Bloch oscillations.
 At room temperature, relaxation times are typically $\sim 10^{-15}$
 or so. In the problem, we did not take into account scattering.
 How would one observe Bloch oscillations? You would have to measure
 some local volatages. How would you go about placing probes at a
 distance $~a$ apart?
 
-It is possible to increase  $a$ can be increased artificially, something-
+It is possible to have artificial materials wherein $a$ can be increased artificially, something-
 something multilayer systems. You can artifically tweak the product
 $\omega_B \tau$ to your liking.
 
@@ -212,80 +212,105 @@ $\omega_B \tau$ to your liking.
 	\pdv{f}{t}\Bigg|_\text{collisions} = -\frac{\delta f}{\tau}
 \end{equation}
 where $\delta f = f - f^{0}$, is the difference between noneq. and 
-eq. disros. Basically we are introducing an empirical restoring force. $\tau(\varepsilon) \to \text{Relaxation time}$
+eq. disros. Basically we are introducing an empirical restoring 
+force. $\tau(\varepsilon) \text{ is the relaxation time}$.
 
 We are not at equilibrium at $t=0$ and we want to look at the transient
-response of the system/distribution.
-
+response of the system/distribution, i.e. when the other terms have
+died out
 \begin{equation}
 	\frac{\dd f}{\dd t} = \left( -\frac{\delta f}{\tau} + (0) + (0) + (0) \right).
 \end{equation}
 
 As $t\to \infty$, $f\to f^{0}$.
 \begin{equation}
-	f(t) = f_0 + C\exp(-\frac{t}{tau})
+	f(t) = f_0 + C\exp(-\frac{t}{\tau})
 \end{equation}
 
-\subsection*{Back to the current problem at hand}
-We have the dynamical equation for $f(\vec{r}, k, t)$ within the 
-relaxation time approximation
+So, this is how the relaxation time approximation works. You
+can expect to capture some phenomena using this simple approximation.
+
+Coming back to the problem at hand with our new approximation scheme,
+we have end up with
 \begin{equation}
-	\pdv{f}{t} + \vec{v}_k\vdot\grad_r f + \frac{\vec{F}}{\hbar}\vdot\grad_kf = -\frac{\delta f}{\tau}
+	\pdv{f}{t} + \mathbf{v}_k\vdot\grad_r f + \frac{\textbf{F}}{\hcut}\vdot\grad_k f = - \frac{\delta f}{\tau}
 \end{equation}
-\subsubsection*{Case 1: $\vec{E} \neq 0$}
-No gradients anywhere, steady state
+\subsubsection*{Case 1: $\vec{E} \neq 0$, no gradients}
+No gradients anywhere, steady state. Only the third term survives.
 \begin{equation}
-	\label{some}
-	\frac{q\vec{E}}{\hbar}\vdot\grad_kf = -\frac{\delta f}{\tau}
-\end{equation}
-\begin{equation}
-	\vec{j}_q = \mathbf{\sigma}\vec{E} \quad \text{(sigma tensor)}
+	\label{case1}
+	\frac{q\mathbf{E}}{\hbar}\vdot\grad_kf = -\frac{\delta f}{\tau}.
 \end{equation}
 
-From \ref{some}
+We want to find the current density $\textbf{j}$, and hopefully it
+will have the form of Ohm's law, like so
 \begin{equation}
+	\vec{j}_q = \boldsymbol{\sigma}\mathbf{E} 
+\end{equation}
+
+Now, $\delta f = f -  f^{0}$, so from equation \ref{case1}
+\begin{equation}
+	\label{mult}
 	\begin{split}
-		&\frac{q\vec{E}}{\hbar}\vdot\grad_k(f^{0}+ \delta f)0 = -\frac{\delta f}{\tau} \\  %%%% TODO
-		\implies & \frac{q\vec{E}}{\hbar}\vdot\grad_k \\
-		\text{or} \quad & \delta f^{0} - \frac{q\tau}{\hbar}\vec{E}\vdot\grad_k f^{0}
+		&\frac{q\textbf{E}}{\hcut}\vdot\grad_k(f^{0} + \delta f) = -\frac{\delta f}{\tau}\\
+		\implies &\frac{q\textbf{E}}{\hcut}\vdot\grad_k f^{0} \quad = \quad -\frac{\delta f}{\tau} \\
+		\implies &\delta f \quad = \quad -\frac{q \tau}{\hcut}\textbf{E}\vdot\grad_k f^{0}
 	\end{split}
 \end{equation}
 
+We end up with a nice looking equation
 \begin{equation}
-	\therefore f = f^{0} - \frac{q\tau}{\hbar}\vdot\grad_kf^{0}
+	\label{fzero}
+		\implies f = f^{0} - \frac{q\tau}{\hcut}\textbf{E}\vdot\grad_k f^{0}
 \end{equation}
 
-$f$ does not need to be the FD distro. In the next class, we will focus
-more on the FD distro and see what kind of properties and behaviour
-is observed.
+Note the approximation made in going to the second equation in
+the steps \ref{mult}. In essence, we can equate the $k$-gradient of
+$f$ with that of $f^{0}$ if we are not too far from equilibrium.
 
-BTW
+If you stare at equation \ref{fzero} intently, you might draw the
+following comparison
 \begin{equation}
-	-\frac{q\vec{E}t}{\hcut} = \delta \vec{k} = \dot{\vec{k}}\delta t
+	-\frac{q\textbf{E}\tau}{\hcut} = \delta \mathbf{k} = \dot{\textbf{k}} \delta t
 \end{equation}
-if we consider $\delta t = \tau$ so that
+so that
 \begin{equation}
 	\begin{split}
-	f &= f^{0} + \delta \vec{k}\grad_kf^{0} \\
-	  &= f^{0}(\vec{k} + \delta\vec{k})
+		f &= f^{0} + \delta \mathbf{k}\vdot\grad_kf^{0}\\
+		  &= f^{0}(\textbf{k}+ \delta \mathbf{k}),
 	\end{split}
 \end{equation}
-i.e. the distribution shifted from the origin in the presence of a
-static electric field. Basically
-\begin{equation}
-	f^{0}(k + \delta k) = f^{0}(k) + \delta \vec{k}\vdot\grad_kf^{0}
-\end{equation}
 
-So, if we plot the Fermi sphere, it's going to be shifted along the
-$+\mathrm{x}$ direction if an electric field is applied along $\hat{x}$.
+Looks like the distribution shifted in the $k$-space from the origin
+through $\delta \mathbf{k} = -q \mathbf{E}\tau/\hcut$ in the presence
+of a static electric field. Consider for example the free electron case,
+whose distribution form a Fermi sphere. See figure \ref{fig:figures-shift-png}.
+The occupancy of states has changed in such a way that the net flux
+of carriers is not balanced.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/shift.png}
+	\caption{Distribution of free electrons in a uniform electric field}
+	\label{fig:figures-shift-png}
+\end{figure}
 
-\subsection*{Current Density}
-This is what we had set out to do. Recall from \ref{current_density}
+Now that we have some expression for the energy distribution of
+charge carriers, we can move on to calculating the current density.
+\subsection*{Current Density in the relaxation time approximation}
+From equation \ref{current_density}, we have
 \begin{equation}
 	\begin{split}
-		\vec{j} &= \frac{q}{4\pi^3}\int \dd^3k \vec{v}_k(f^{0}+ \delta f^{0}) \\
-			&\text{TODO: SUBSTITUTE}  %%% TODO
+		\mathbf{j} &= \int \dd ^3 k \frac{e}{4\pi^3}f\textbf{v}(\textbf{k})\\
+			   &= \frac{q}{4\pi^3}\int \dd ^3 k \mathbf{v}_k (f^{0} + \delta f) \\
+			   &= \frac{q}{4\pi ^3}\int \dd ^3 k \mathbf{v}_k f^{0} + \frac{q}{4\pi ^3}\int \dd ^3 k \mathbf{v}_k \delta f
 	\end{split}
+\end{equation}
+
+The first term is just the equilibrium current density, which is zero.
+So, we have
+\begin{equation}
+	\label{current_density_rt}
+	\mathbf{j} = 0 + \frac{q}{4\pi ^3}\int d^3k \mathbf{v}_k \delta f
 \end{equation}
 
 So, we started from Bloch electrons, applied and electric field
@@ -296,22 +321,39 @@ Also, even if you didn't have a very nice Fermi sphere, the same
 procedure holds for calculating the current density for a more
 general Fermi sphere.
 
-One of my colleagues asked whether Ohm's law is a manifestation of
-Fermionic carriers. 
-
 We have the FD distro
-%%%%%%%%%%%%% TODO: fix
-%\begin{equation}
-	
-%	\begin{split}
-%		&f^{0} = \frac{1}{1 + \exp\left( \left( \varepsilon - \mu \right) \beta \right) }
-%		\implies&\pdv{f^{0}}{\varepsilon} = -\beta f^{0}(1 - f^{0}) \\
-%		\text{or}\quad &\grad_k f^{0} = -\beta f^{0}(1 - f^{0})\hcut \vec{v}_k \\
-%		\implies&\vec{j} = \frac{q}{4\pi^3}\int \dd^3k \vec{v}_k\vdot\left( -\frac{q\vec{E}t}{\hcut}h\vec{v}_k \left( -\beta f^{0}(1 - f^{0}) \right)  \right) 
-%	\end{split}
-%\end{equation}
+\begin{equation}
+	f^{0} = \frac{1}{1 + \exp((\varepsilon - \mu)\beta)}
+\end{equation}
+and its derivative
+\begin{equation}
+	\label{fd_dv}
+	\pdv{f^{0}}{\varepsilon} = -\beta f^{0}(1 - f^{0})
+\end{equation}
+or in the vector form
+\begin{equation}
+	\label{fd_dvv}
+	\grad_k f^{0} = -\beta f^{0}(1 - f^{0})\hcut \mathbf{v}_k
+\end{equation}
 
-Remember what $f_{\text{FD}}\left( 1 - f_{\text{FD}} \right) $ looks like?
+From (\ref{mult}), we can rewrite (\ref{current_density_rt}) as
+\begin{equation}
+	\mathbf{j} = \frac{q}{4\pi^3}\int \dd ^3 k \mathbf{v}_k \left( -\frac{q\textbf{E}\tau}{\hcut}\vdot\grad_k f \right).
+\end{equation}
+
+Since we are close to equilibrium, as mentioned earlier, we can approximate
+$\grad_k f = \grad_k f^{0}$. So, we have
+\begin{equation}
+	\mathbf{j} = \frac{q}{4\pi^3} \int \dd ^3 k \mathbf{v}_k \left( -\frac{q\textbf{E}\tau}{\hcut}\vdot\grad_kf^{0} \right).
+\end{equation}
+
+Substituting  equation (\ref{fd_dvv}) into this, we get
+\begin{equation}
+	\frac{q}{4\pi^3}\int \dd ^3 k \mathbf{v}_k\left( \frac{q\tau}{\hcut}\beta f^{0}\left( 1 - f^{0} \right) \hcut \mathbf{E}\vdot \mathbf{v}_k \right) 
+\end{equation}
+
+Take a look at figure \ref{fig:figures-fddv-png}. It approaches
+a  $\delta$-function as $\beta \to  0$.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/fddv.png}
@@ -348,5 +390,4 @@ Plug in $g(\varepsilon)$ for free electrons/Sommerfeld metal ($g(\varepsilon) \s
 
 Nice. We started with Bloch electrons and were able to derive Drude
 conductivity. Getting a feel for the power of this method? The generality?
-Mutual funds are subject to market risks
 \end{document}

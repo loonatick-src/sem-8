@@ -461,14 +461,99 @@ The first term
 \end{equation}
 
 Second term
+\[
+\vdots
+.\] 
+
+\textbf{A discussion on the assignment.} We were given $\mathbf{B}
+= \left( 0, 0, 0 \right) $ and $\mathbf{E} = \left( E_x, E_y, 0 \right)  $
+We ended up with the magnetoconductiviy tensor. In the Hall effect
+as we studied in our childhood, we define $R_H$ as 
 \begin{equation}
-	\label{secondterm}
+	\frac{E_y}{j_x} = R_H
+\end{equation}
+in the geometry shown in figure {(\ref{hallgeom})}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/hallgeom.png}
+	\caption{Hall Geometry}
+	\label{hallgeom}
+\end{figure}
+
+$ j_y = 0$ in the Hall geometry.
+\begin{equation}
 	\begin{split}
-	\grad_k \delta f &=  \grad_k \left( -\frac{q\tau}{\hcut} \mathbf{z}\vdot\grad_k f^{0} \right)\\
-	&=  \grad_k \left[ -\frac{q\tau}{\hcut}\textbf{z}\vdot \left( \left( -\pdv{f^{0}}{\varepsilon} \right) \hcut \right) \mathbf{v}_k \right]  \\
-	&= -q\tau\grad_k \left[ -\beta f^{0}(1-f^{}) \mathbf{z}\vdot\mathbf{v}_k \right] 
+		\implies j_y &= \omega_c \tau E_x + E_y = 0\\
+		\implies E_y &=  -\omega_c \tau E_x 
 	\end{split}
 \end{equation}
 
-	
+From the magnetocondcuctivity tensor 
+\begin{equation}
+	\begin{split}
+		j_{x} &= \frac{\sigma_0}{1  + \left( \omega_c \tau \right) ^2}
+	\frac{E_y}{-\frac{E_y}{\omega_c \tau} - \omega_c\tau E_y}\\
+	&= -\frac{\omega_c\tau}{\sigma_0} = \frac{eB}{m}\tau \frac{m}{ne^2\tau}\\
+	&=  -\frac{B}{ne} \\
+	\implies R_H &= -\frac{1}{ne}
+	\end{split}
+\end{equation}
+which is the Hall effect that all junior undergrads know and love.
+
+\subsubsection*{$\textbf{E} \neq  0, \mathbf{B} \neq 0, \grad_r f \neq 0 $}
+\begin{centering}
+	(Considering the gradients of $\mu$ and $T$)
+\end{centering}
+So, were working with the approximation \[
+\grad_r f \approx \grad_r f^{0}
+.\] 
+Our transport equation was
+\begin{equation}
+	\pdv{f}{t} + \mathbf{v}_k\vdot\grad_r f + \frac{\textbf{f}}{\hcut}
+	\grad_k f = -\frac{\delta f}{\tau}
+\end{equation}
+For no external forcing, i.e. $ \mathbf{F} = 0$,
+\begin{equation}
+	\begin{split}
+		\frac{\delta f}{\tau} &= - \mathbf{v_k}\grad_r f\\
+			&\approx - \mathbf{v}_k \grad_r	f^{0}\\
+			\implies \delta f &= -\tau \mathbf{v}_k \grad_r f^{0}
+	\end{split}
+\end{equation}	
+
+Verify that  %%%% TODO
+\begin{equation}
+	\label{plug}
+	\grad_r f^{0} = \left( \pdv{f^{0}}{\varepsilon_k}\left[ -\grad\mu - \left( \varepsilon_k - \mu \right) \frac{\grad T}{T} \right]  \right) 
+\end{equation}
+
+Plugging (\ref{plug}) into the previous equation
+\begin{equation}
+	\begin{split}
+		\delta f &= -\tau \mathbf{v}_k \grad_r f^{0} \\
+			 &=  \tau \mathbf{v}_k\left( \pdv{f^{0}}{\varepsilon_k} \right) \left[ -\grad\mu - \left( \varepsilon_k - \mu \right) \frac{\grad T}{T} \right] 
+	\end{split}
+\end{equation}
+
+Now, what was the expression for current density
+\begin{equation}
+	\begin{split}
+		\mathbf{j}_q &= \frac{q}{4\pi^3}\int \dd ^3 k \mathbf{v_k} \delta f \\
+			     &= \left\{ \frac{q^2}{4\pi^3}\int \dd ^3 k \tau \mathbf{v}_k \otimes \mathbf{v}_k \left( -\pdv{f^{0}}{\varepsilon_k} \right) \right\} \vdot \left( -\frac{\grad \mu}{q} \right)  \\
+			     &+ \left\{ \frac{q^2}{4\pi^3}\int \dd ^3 k \tau \mathbf{v}_k \otimes \mathbf{v}_k \left( -\pdv{f^{0}}{\varepsilon_k} \right) \right\}\vdot \left( -\frac{\grad T}{T} \right)
+	\end{split}
+\end{equation}
+
+So, the second term shows that there is a temperature gradient
+contribution to the charge current. Such phenomena are indeed
+observed, such as  Seebeck effect.
+
+Now, if $ \mathbf{E}\neq  0$ then, we're going to show you a wrong
+way of doing things.
+\begin{equation}
+	\begin{split}
+		\grad_r f^{0} &= \grad_r \left\{ \frac{1}{1 + \frac{\exp}{\frac{\left( \varepsilon( \mathbf{r} - \mu( \mathbf{r})) \right) }{k_BT( \mathbf{r})}}} \right\} \\
+			      &=  \left( \pdv{f^{0}}{\varepsilon_k(\textbf{r})} \right) \left[ \grad_k( \mathbf{r} - \mu ) - \{\varepsilon_k - \mu( \mathbf{r})\} \frac{\grad T}{T} \right] ] \\
+	\end{split}
+\end{equation}
 \end{document}

@@ -376,5 +376,102 @@ Everything flows on a long enough time scale. (See the article on Deborah number
 appeared in Physics Today in 1964). To have a small $D_e$ you can
 either have a small relaxation time, or a very large ovservation time
 for an otherwise long relaxation time.
-	
+
+%%%% TODO: lots of stuff LMAO
+%%%% The following notes are from lecture 5
+\section*{Linear Viscoelasticity}
+We want to calculate the response of a soft matter system to some
+arbitrary strain $\gamma(t)$. 
+\begin{equation}
+	\sigma(t) = \int_{-\infty}^tG(t-t')\dot{\gamma}(t')\dd t'
+\end{equation}
+
+Consider an oscillatory stress \[
+	\gamma(t) = \gamma_0 \cos\omega t
+.\] 
+
+The response of a linear medium is a superposition of an elastic term.
+Our response function will be of the form
+\begin{equation}
+	G^{*}(\omega) = G'(\omega) + iG''(\omega)
+\end{equation}
+The first term is the elastic response (storage) and the second one
+is the viscous response (loss modulus). Note that we are assuming
+that the system has a single relaxation time.
+
+and a viscour term
+\begin{equation}
+	%%%% TODO:
+	G'(\omega) = G_{e} + \frac{G(\omega\tau)}{LOL}
+\end{equation}
+
+So far we are ignoring molecular structure of the soft material. Once
+we start doing system-specific studies, e.g. polymers, surfactants et
+cetera, then we'll look at more accurate descriptions. Nevertheless,
+these approximations give, in many cases, some meaningful insight.
+
+\subsubsection*{Mechanical Elements}
+Simple models of linear media are typically constructed using spring-dashpot 
+models. The spring (Young's modulus $E$) emulates the elastic part of the response while the
+dashpot (or damper, viscosity $\eta_E$) emulates the viscous response.
+
+So, we have
+\begin{equation}
+	\begin{split}
+		\sigma = E\gamma\\
+		\sigma= \eta_E \dot{\gamma}
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	\eta_E = \tau E, %%% TODO: there was another response function/expression to distinguish between something idk
+\end{equation}
+where $\tau$ is the relaxation time of the material.
+
+For a spring-dashpot series model, we have
+\begin{equation}
+	\sigma = \sigma_s = \sigma_d
+\end{equation}
+
+The difference lies in the strain experienced by the two elements
+\begin{equation}
+	\begin{split}
+		&\gamma = \gamma_s + \gamma_d\\
+		\implies &\dot{\gamma} = \dot{\gamma}_s + \dot\gamma_d\\
+		\implies & \sigma_s = E\gamma_s\quad \text{and}\\
+			 &\sigma_d = \eta_E \dot\gamma_d
+	\end{split}
+\end{equation}
+
+These are the equations for extension, but the same can be done for
+shear stress.
+
+Creep: Apply tensile stress $\sigma_{E,0}$ which is held
+		constant at later time (i.e. step input)
+\begin{equation}
+	\dv{\sigma}{t} = 0 \implies \dv{\sigma_s}{t} = 0
+\end{equation}
+\begin{equation}
+	\implies \dv{\sigma_{E,0}}{t} = %%% TODO
+\end{equation}
+\begin{equation}
+	\begin{split}
+		\int_0^t \dd \gamma &= \int_0^t \frac{\sigma_{E,0}}{\eta_E}\dd t \\
+		\implies \gamma(t) - \gamma(0) &= \sigma_{E,0}\frac{t}{\eta_E} \\
+		\implies \frac{\gamma(t)}{\sigma_{E,0}} &= \frac{\gamma(0)}{\sigma_{E,0}} + \frac{t}{\eta_E} 
+	\end{split}
+\end{equation}
+
+Tensile compliance is defined as the inverse of the Young's modulus.
+%%% TODO: I have the attention span of a labrador
+
+Something-something dynamic experiment.
+
+\begin{equation}
+	\sigma_E(t) = \sigma^{*}_{E,0}e^{i\omega t}
+\end{equation}
+We have the equation for the Maxwell element
+\begin{equation}
+	\dv{\gamma}{t} = \frac{1}{E} \dv{\sigma_E}{t} = \frac{\sigma_E}{\eta_E}
+\end{equation}
 \end{document}

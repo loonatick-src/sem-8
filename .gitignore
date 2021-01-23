@@ -13,5 +13,6 @@ UGFee*
 *.fls
 *.log
 *.gz
+*_minted-main/
 
 

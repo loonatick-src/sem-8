@@ -1,0 +1,4 @@
+Tower of Hanoi
+Drawing ruler
+Binary Search
+No duplicate elements in array

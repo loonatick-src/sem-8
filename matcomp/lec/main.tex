@@ -233,62 +233,107 @@ $\vec{b} = \sum_{j=1}^{n} a_j\vec{e_j}$ And $\vec{x} = \sum_{j=1}^{n} x_i \vec{e
 LOL IDK what I am doing. %%%% TODO: write full proof
 
 \subsection*{Gaussian Elimination}
-Solve for $\vec{x}$ in $\mathrm A \vec{x} = \vec{b}$ where $\mathrm A \in  \R^{n\times m}$. We can construct an equivalent system of equations
-like 
-\[
-	\mathrm A \vec{x} = \vec{b} \to \mathrm{\overline{A}}\vec{x}
-	= \vec{\overline{b}}
-.\]
-where we can move from LHS to RHS using elementary operations (row,
-column, interchanges, scaling et cetera),
-remember those? Constructed by tweaking the identity matrix. I.e.
-$\mathrm{EA} = \mathrm \overline{A}$, where $\mathrm E$ is invertible.
+You know what Guassian elimination is from MA 214. Summarizing
+na\"ive Gaussian elimination here. We use elementary transformation
+$\mathrm{E}$ to reduce $\mathrm{A}$ to an upper triangular form
+and solve then use backward substitution.
 
-Gaussian elimination is a systematic way of using these elementary
-operations to reduce an invertible matrix to an upper triangular
-matrix.
-
-Consider an $n\times n$ matrix $a_{ij}$. We use an elemenary row operation using
 \begin{equation}
-	\mathrm{E_1} = \begin{bmatrix} 1 & 0 & 0 &\ldots&0\\
-		-m_{21} & 1 & 0  & \ldots & 0\\
--m_{31} & 0 & 1 & \ldots & 0 \\
-\hdotsfor{5}\\
--m_{n 1} & 0 & 0 & \ldots & 1\end{bmatrix} 
-\end{equation}
-where 
-\begin{equation}
+	\label{step_1}
 	\begin{split}
-		&m_{21} = \frac{a_{21}}{a_{11}} \\
-		&m_{31} = \frac{a_{31}}{a_{11}}\\
-		&\ldots\\
-		&m_{n 1} = \frac{a_{n 1}}{a_{11}}
-	\end{split}
-\end{equation}
-
-Then moving on to the second row
-\begin{equation}
-	\mathrm{E_2} = \begin{bmatrix} 1 & 0 & 0 & \ldots & 0\\
-	0 & 1 & 0 & \ldots & 0\\
-	0 & -m_{32} & 1 & \ldots & 0\\
+	\begin{bmatrix} 
+	1 & 0 & 0 & \ldots & 0\\
+	-m_{21} & 1 & 0 & \ldots & 0\\
+	-m_{31} & 0 & 1 & \ldots & 0 \\
 	\hdotsfor{5}\\
-0 & -m_{n 2} & 0 & \ldots & 1\end{bmatrix} 
+	-m_{n 1} & 0 & 0 & \ldots & 1\end{bmatrix}
+	\begin{bmatrix}
+	a_{11} & a_{12} & a_{13} & \ldots & a_{1n}\\
+	a_{21} & a_{22} & a_{23} & \ldots & a_{2n}\\
+	a_{31} & a_{32} & a_{33} & \ldots & a_{3 n}\\
+	\hdotsfor{5}\\
+	a_{n_1} & a_{n 2} & a_{n 3} & \ldots & a_{n n}\end{bmatrix} \\
+	= \begin{bmatrix} 
+	a_{11} & a_{12} & a_{13} & \ldots & a_{1 n}\\
+	0 & a_{22}^{(1)} & a_{23}^{(1)} & \ldots & a_{2 n}^{(1)}\\
+	0 & a_{32}^{(1)} & a_{33}^{(1)} & \ldots a_{3 n}^{(1)}\\
+	\hdotsfor{5}\\
+	0 & a_{n2}^{(1)} & a_{n 3}^{(1)} &\ldots & a_{n n}^{(1)}
+\end{bmatrix}
+	\end{split}
 \end{equation}
 where
 \begin{equation}
-\begin{split}
-	& m_{32} = \frac{a_{32}^{(1)}}{a_{22}^{(1)}}\\
-	& \ldots\\
-	& m_{n 2} = \frac{a_{n 2}^{(1)}}{a_{22}^{(1)}}\\
-\end{split}
+	m_{j 1} = \frac{a_{j1}}{a_{1 1}}, \quad a_{j 1} \neq  0
 \end{equation}
 
-You get the flow\ldots
-So, it would be possible that any of the $a_{kk}^{(i)} = 0$, possible.
-How would we check beforehand?
-\begin{itemize}
-	\item Check singularity of leading principle submatrices
-\end{itemize}
+This completes one step of procuring an upper triangular matrix. The
+next step proceeds by pre-multiplying a similar elementary transformation
+matrix to equation (\ref{step_1})
+\begin{equation}
+	\label{step_2}
+	\begin{split}
+		\begin{bmatrix} 
+	1 & 0 & 0 & \ldots & 0\\
+0 & 1 & 0 & \ldots & 0\\
+0 & -m_{32} & 1 & \ldots & 0\\
+\hdotsfor{5}\\
+0 & -m_{n 2} & 0 & \ldots & 1
+\end{bmatrix}
+\begin{bmatrix}  
+	a_{11} & a_{12} & a_{13} & \ldots & a_{1 n} \\
+	0 & a_{22}^{(1)} & a_{23}^{(1)} & \ldots & a_{2 n}^{(1)}\\
+	0 & a_{32}^{(1)} & a_{33}^{(1)} & \ldots & a_{3 n}^{(1)}\\
+	\hdotsfor{5}\\
+	0 & a_{n 2}^{(1)} & a_{n 3}^{(1)} & \ldots & a_{n n}^{(1)} 
+\end{bmatrix} 	\\
+= \begin{bmatrix} 
+	a_{11} & a_{21} & a_{13} & \ldots & a_{1 n} \\
+0 & a_{22}^{(1)} & a_{23}^{(1)} & \ldots & a_{2n}^{(1)}\\
+0 & 0 & a_{33}^{(2)} & \ldots & a_{3 n}^{(2)}\\
+\hdotsfor{5}\\
+0 & 0 & a_{n 3}^{(2)} & \ldots & a_{n n}^{(2)}\end{bmatrix} ,
+	\end{split}
+\end{equation}
+where
+\begin{equation}
+	m_{j 2} = \frac{a_{j2}^{(1)}}{a_{2 2}^{(1)}}.
+\end{equation}
 
-Mutual funds are subject to market risk
+You can see the upper triangular matrix forming. In general, we
+have 
+\begin{equation}
+	\label{mij}
+	m_{ij} = \frac{a_{ij}^{(j-1)}}{a_{jj}^{(j-1)}}.
+\end{equation}
+
+So, Gaussian elimination is basically the process
+\begin{equation}
+	E_{n-1}E_{n-2}\ldots E_2E_1A = \overline{A}
+\end{equation}
+where $\overline{A}$ is an upper-triangular matrix. The product
+$E_{n -1}E_{n-2}\ldots E_2E_1$ ends up being an upper triangular matrix.
+
+\subsubsection*{When can we proceed with Gaussian elimination?}
+Of course, we would like to have $a_{jj}^{(j-1)}$ is non-zero.
+Else there will be singularieites as seen in (\ref{mij}).
+
+Of course, checking those values after each step sounds
+very inefficient. An equivalent condition is - given $A$, we check
+if all of $A_1, A_2, \ldots, A_{n}$ are all invertible, where
+\[
+	A_k = A(1:k, 1:k)
+\] 
+is the $k\times k$ upper left submatrix of $A$. Formal proof ditch,
+we could look at some informal arguments. Consider  $ k = 1$.
+$A_1$ is invertible $\implies a_{11} \neq  0$. This could be our base
+case.
+
+Now, the most important point here is that $\text{det}A_k \forall k$ 
+is invariant under elementary transformations.
+At step $j$, we already have the upper left $k-1 \times  k-1$ matrix
+is upper triangular. It can be easily shown that the next elementary
+operation would create a $j \times  j$ upper triangular matrix.
+
+Also, the 
 \end{document}

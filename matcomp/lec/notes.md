@@ -67,3 +67,14 @@ solutions are affected how much by small perturbations in the
 parameters. It'll turn out to be wildly varying. So, we need to
 be good at quantifying upper bounds on such errors.
 
+### Vector Norms
+- Euclidean norm: sqrt(x.x), i.e. smallest distance in Euclidean geometry
+- Taxi-cab norm: again, x in R^n ||x||1 := |x1| + |x2| + ....
+- max norm: ||x||_ooo_ max{x1, x2, ... xn}
+
+Perhaps we should also define what qualifies as a norm
+- postive definite
+- positive scaling
+- triangle inequality
+
+HW: show that the above listed norms satisfy the above properties.

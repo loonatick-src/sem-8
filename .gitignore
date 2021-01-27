@@ -14,5 +14,6 @@ UGFee*
 *.log
 *.gz
 *_minted-main/
+*assignments/
 
 

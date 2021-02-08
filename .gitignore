@@ -1,4 +1,5 @@
 *.xoj
+*.out
 *.swp
 */hw/
 */books/
